@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "astryxions_miners_dream:item/miners_dream"
+  }
+}

@@ -1,0 +1,27 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="All Rights Reserved"
+
+[[mods]]
+modId="astryxions_miners_dream"
+version="1.1.0"
+displayName="Astryxion's Miner's Dream"
+authors="Astryxion"
+description='''
+The original Miner’s Dream returns.
+A powerful mining item reborn with polish, fixes, and modern Forge support.
+'''
+
+[[dependencies.astryxions_miners_dream]]
+    modId="forge"
+    mandatory=true
+    versionRange="[47,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.astryxions_miners_dream]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.1,1.21)"
+    ordering="NONE"
+    side="BOTH"
