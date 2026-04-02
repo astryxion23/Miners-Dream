@@ -1,42 +1,35 @@
 package com.astryxion.astryxions_miners_dream;
 
+import com.astryxion.astryxions_miners_dream.item.MinersDreamTunnelScheduler;
 import com.astryxion.astryxions_miners_dream.item.ModItems;
-import com.mojang.logging.LogUtils;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Mod(AstryxionsMinersDreamMod.MODID)
 public class AstryxionsMinersDreamMod {
 
     public static final String MODID = "astryxions_miners_dream";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    private static final Logger LOGGER = LoggerFactory.getLogger(AstryxionsMinersDreamMod.class);
 
-    public AstryxionsMinersDreamMod() {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
-        // Register items
+    public AstryxionsMinersDreamMod(IEventBus modEventBus) {
         ModItems.register(modEventBus);
+        ModRecipes.registerEvents();
+        MinersDreamTunnelScheduler.register();
+        modEventBus.addListener(this::onBuildCreativeModeTabContents);
 
-        // Creative tab injection (vanilla tab)
-        modEventBus.addListener(this::addCreative);
-
-        modEventBus.addListener(this::commonSetup);
-        MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    private void commonSetup(final FMLCommonSetupEvent event) {
         LOGGER.info("Astryxion's Miner's Dream loaded successfully.");
     }
 
-    private void addCreative(BuildCreativeModeTabContentsEvent event) {
+    private void onBuildCreativeModeTabContents(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
-            event.accept(ModItems.MINERS_DREAM);
+            ItemStack stack = new ItemStack(ModItems.MINERS_DREAM.get(), 1);
+            event.accept(stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
     }
 }
