@@ -1,0 +1,23 @@
+{
+	"schemaVersion": 1,
+	"id": "astryxions_miners_dream",
+	"version": "${version}",
+	"name": "Astryxion's Miner's Dream",
+	"description": "The original Miner's Dream returns.\nA powerful mining item reborn with polish, fixes, and modern Fabric support.",
+	"authors": [
+		"Astryxion"
+	],
+	"license": "All Rights Reserved",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.astryxion.astryxions_miners_dream.AstryxionsMinersDreamMod"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.14.22",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}
