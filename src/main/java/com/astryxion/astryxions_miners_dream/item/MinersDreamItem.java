@@ -1,7 +1,10 @@
 package com.astryxion.astryxions_miners_dream.item;
 
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -17,12 +20,36 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class MinersDreamItem extends Item {
 
-    // Forge ores tag (modern constructor)
-    private static final TagKey<Block> ORES_TAG =
-            BlockTags.create(new ResourceLocation("forge", "ores"));
+    private static final TagKey<Block> FORGE_ORES_TAG =
+            TagKey.create(Registries.BLOCK, new ResourceLocation("forge", "ores"));
 
     public MinersDreamItem(Properties properties) {
         super(properties);
+    }
+
+    private static boolean isOreBlock(BlockState state) {
+        if (state.is(FORGE_ORES_TAG) || state.is(ConventionalBlockTags.ORES)) {
+            return true;
+        }
+        if (state.is(BlockTags.COAL_ORES)
+                || state.is(BlockTags.COPPER_ORES)
+                || state.is(BlockTags.DIAMOND_ORES)
+                || state.is(BlockTags.EMERALD_ORES)
+                || state.is(BlockTags.GOLD_ORES)
+                || state.is(BlockTags.IRON_ORES)
+                || state.is(BlockTags.LAPIS_ORES)
+                || state.is(BlockTags.REDSTONE_ORES)) {
+            return true;
+        }
+        ResourceLocation id = BuiltInRegistries.BLOCK.getKey(state.getBlock());
+        if (id == null) {
+            return false;
+        }
+        String path = id.getPath();
+        if (path.endsWith("_ore")) {
+            return true;
+        }
+        return path.startsWith("ore_");
     }
 
     @Override
@@ -70,7 +97,7 @@ public class MinersDreamItem extends Item {
                                 level.destroyBlock(mutablePos, false);
                             }
                         } else {
-                            boolean isOre = blockState.is(ORES_TAG);
+                            boolean isOre = isOreBlock(blockState);
                             if (!isOre) {
                                 level.destroyBlock(mutablePos, false);
                             }
